@@ -38,7 +38,14 @@ const options = {
       "error",
       "always"
     ]
-  }
+  },
+  "settings": {
+    "react": {
+      "version": "detect",
+    },
+    "react/react-in-jsx-scope": "off",  
+    "react/jsx-filename-extension": [2, { "extensions": [".js", ".jsx", "ts", "tsx"] }],
+  },
 };
 
-module.exports =options;
+module.exports = options;
