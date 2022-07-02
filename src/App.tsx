@@ -20,10 +20,12 @@ const Box = styled(motion.div)`
 const myVars = {
   start: { scale: 0 },
   end: {
-    scale: 1, rotateZ: 360, transition: {
+    scale: 1,
+    rotateZ: 360,
+    transition: {
       type: "spring",
       bounce: 0.5,
-    }
+    },
   },
 };
 
