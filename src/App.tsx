@@ -60,16 +60,20 @@ const overlayVariants = {
 
 function App() {
   const [clicked, setClicked] = useState(false);
+  const [currentBox, setCurrentBox] = useState("");
 
   const toggle = () => setClicked((prev) => !prev);
 
   return (
     <Wrapper onClick={toggle}>
       <Grid>
-        <Box layoutId="hello" />
-        <Box />
-        <Box />
-        <Box />
+        {["1", "2", "3", "4"].map((item) => (
+          <Box
+            key={item}
+            layoutId={item + ""}
+            onClick={() => setCurrentBox(item)}
+          />
+        ))}
       </Grid>
       <AnimatePresence>
         {clicked ? (
@@ -80,7 +84,7 @@ function App() {
             exit="exit"
           >
             <Box
-              layoutId="hello"
+              layoutId={currentBox + ""}
               style={{
                 width: "80%",
                 height: 380,
