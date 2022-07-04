@@ -1,62 +1,94 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   background: linear-gradient(136deg, #e09, #d0e);
 `;
 
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: 50vw;
+  gap: 10px;
+
+  div:first-child,
+  div:last-child {
+    grid-column: span 2;
+  }
+`;
+
 const Box = styled(motion.div)`
-  width: 400px;
-  height: 400px;
-  background-color: rgba(255, 255, 255, 1);
+  height: 200px;
   border-radius: 40px;
+  background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
+
+const Overlay = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const Circle = styled(motion.div)`
-  background-color: #00a5ff;
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-`;
+const overlayVariants = {
+  initial: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
+  },
+  animate: {
+    backgroundColor: "rgba(0, 0, 0, .7)",
+    transition: {
+      duration: 0.3,
+    },
+  },
+  exit: {
+    backgroundColor: "rgba(0, 0, 0, 0)",
+    transition: {
+      duration: 0.3,
+    },
+  },
+};
 
 function App() {
   const [clicked, setClicked] = useState(false);
-  const toggleClick = () => setClicked((prev) => !prev);
+
+  const toggle = () => setClicked((prev) => !prev);
 
   return (
-    <Wrapper onClick={toggleClick}>
-      <Box>
-        {!clicked ? (
-          <Circle
-            layoutId="circle"
-            style={{
-              borderRadius: 50,
-            }}
-          />
-        ) : null}
-      </Box>
-      <Box>
+    <Wrapper onClick={toggle}>
+      <Grid>
+        <Box layoutId="hello" />
+        <Box />
+        <Box />
+        <Box />
+      </Grid>
+      <AnimatePresence>
         {clicked ? (
-          <Circle
-            layoutId="circle"
-            style={{
-              borderRadius: 0,
-              scale: 2,
-            }}
-          />
+          <Overlay
+            variants={overlayVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Box
+              layoutId="hello"
+              style={{
+                width: "80%",
+                height: 380,
+              }}
+            />
+          </Overlay>
         ) : null}
-      </Box>
+      </AnimatePresence>
     </Wrapper>
   );
 }
